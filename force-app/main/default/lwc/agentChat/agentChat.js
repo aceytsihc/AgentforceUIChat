@@ -4,11 +4,11 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript } from 'lightning/platformResourceLoader'; // If needed for external libs
 
 // Apex Methods
-import initializeAgentSession from '@salesforce/apex/MessengerChatController.initializeAgentSession';
-import getAgentRecommendation from '@salesforce/apex/MessengerChatController.getAgentRecommendation';
-import endAgentSession from '@salesforce/apex/MessengerChatController.endAgentSession';
-import saveChatTranscript from '@salesforce/apex/MessengerChatController.saveChatTranscript'; // Placeholder
-import addMessageToConversation from '@salesforce/apex/MessengerChatController.addMessageToConversation'; // Placeholder
+import initializeAgentSession from '@salesforce/apex/AgentChatController.initializeAgentSession';
+import getAgentRecommendation from '@salesforce/apex/AgentChatController.getAgentRecommendation';
+import endAgentSession from '@salesforce/apex/AgentChatController.endAgentSession';
+import saveChatTranscript from '@salesforce/apex/AgentChatController.saveChatTranscript'; // Placeholder
+import addMessageToConversation from '@salesforce/apex/AgentChatController.addMessageToConversation'; // Placeholder
 import callElevenLabsTTS from '@salesforce/apex/ElevenLabsTTSController.generateSpeech'; // Import NEW TTS method
 
 // Constants
@@ -23,14 +23,14 @@ const RECONNECTING_TEXT = 'Reconnecting...';
 const CONNECTION_ERROR_TEXT = "Sorry, I couldn't connect right now. Please try again later.";
 const DEFAULT_VOICE_ID = '21m00Tcm4TlvDq8ikWAM'; // Default ElevenLabs Voice ID (Rachel)
 
-export default class MessengerChat extends LightningElement {
+export default class AgentChat extends LightningElement {
     // --- Component Properties (from metadata) ---
     @api agentName = 'Agentforce';
     @api agentId = ''; // Required
     @api connectedAppConsumerKey = ''; // Required
     @api connectedAppConsumerSecret = ''; // Required
     @api defaultDarkMode = false;
-    @api welcomeMessage = 'Hello! How can I assist you today?';
+    @api welcomeMessage = 'Hello! I am your AI Agent. How can I help you today?';
     @api allowVoiceMode = false;
     @api position = 'bottom-right';
     @api headerText = 'Agentforce Support';
@@ -1072,7 +1072,7 @@ export default class MessengerChat extends LightningElement {
     // --- Getters for Template ---
 
     get containerClasses() {
-        return `messenger-chat-container position-${this.position}`;
+        return `agent-chat-container position-${this.position}`;
     }
 
     get chatWindowClasses() {
@@ -1137,4 +1137,4 @@ export default class MessengerChat extends LightningElement {
          }
      }
 }
-// --- END OF FILE messengerChat.js ---
+// --- END OF FILE agentChat.js ---
