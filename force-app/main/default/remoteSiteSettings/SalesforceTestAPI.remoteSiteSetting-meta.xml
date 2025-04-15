@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SalesforceTest</fullName>
+    <description>Allows callouts to the standard Salesforce sandbox login endpoint (e.g., for some OAuth flows or API interactions in sandboxes).</description>
+    <disableProtocolSecurity>false</disableProtocolSecurity>
+    <isActive>true</isActive>
+    <url>https://test.salesforce.com</url>
+</RemoteSiteSetting>
