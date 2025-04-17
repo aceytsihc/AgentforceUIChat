@@ -1,4 +1,3 @@
-// --- START OF FILE AgentChatController.cls ---
 /**
  * @description Controller for the Agentforce Chat LWC.
  * Handles Einstein AI Agent session management, message sending/receiving,
@@ -93,7 +92,7 @@ public without sharing class AgentChatController {
             // Construct the request payload
             // Using bypassUser=true for automated agent interaction without specific user context mapping
             Map<String, Object> payload = new Map<String, Object>{
-                'externalSessionKey'    => generateUUID(), // Unique key for this session attempt
+                'externalSessionKey'    => generateUUID(), // Unique key for this session attempt <<<< USES FIXED METHOD
                 'instanceConfig'        => new Map<String, Object>{ 'endpoint' => URL.getOrgDomainUrl().toExternalForm() },
                 'streamingCapabilities' => new Map<String, Object>{ 'chunkTypes' => new List<String>{ 'Text' } }, // Adjust if streaming other types
                 'bypassUser'            => true
@@ -546,18 +545,21 @@ public without sharing class AgentChatController {
     }
 
     /**
-     * @description Generates a random UUID string.
-     * @return String A random UUID.
+     * @description Generates a random UUID string formatted correctly. <<<< FIXED
+     * @return String A random UUID in standard format.
      */
     private static String generateUUID() {
-        // Uses Apex's built-in UUID generation which relies on Blob/Crypto
-        return EncodingUtil.convertToHex(Crypto.generateAesKey(128)).substring(0,36);
-        // The original UUID.randomUUID() doesn't exist in Apex. This provides a similar random string.
-        // A more standard UUID v4 format if needed:
-        // Blob b = Crypto.generateAesKey(128);
-        // String h = EncodingUtil.convertToHex(b);
-        // return h.substring(0,8)+'-'+h.substring(8,12)+'-4'+h.substring(13,16)+'-a'+h.substring(17,20)+'-'+h.substring(20,32);
+        // Generates a standard v4 UUID format string
+        Blob b = Crypto.generateAesKey(128); // Generate 128 random bits
+        String h = EncodingUtil.convertToHex(b); // Convert to 32 hex characters
+        // Format into xxxxxxxx-xxxx-4xxx-Nxxx-xxxxxxxxxxxx (N=variant 8,9,A,B)
+        return h.substring(0, 8) + '-' +    // 8 chars
+               h.substring(8, 12) + '-' +   // 4 chars
+               '4' + h.substring(13, 16) + '-' + // 4 chars (version '4')
+               'a' + h.substring(17, 20) + '-' + // 4 chars (variant 'a' representing hex A)
+               h.substring(20, 32);          // 12 chars
     }
+
 
     /**
      * @description Helper to parse common error structures from API response bodies.
